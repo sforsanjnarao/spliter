@@ -13,18 +13,18 @@ export const store = mutation({
     // ctx.db.query("users")
     //  .filter(q => q.eq(q.field("tokenIdentifier"), identity.tokenIdentifier))
     //  .unique();
-    const user = await ctx.db
+    const users = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
         q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    if (user !== null) {
+    if (users !== null) {
       // If we've seen this identity before but the name has changed, patch the value.
-      if (user.name !== identity.name) {
-        await ctx.db.patch(user._id, { name: identity.name });
+      if (users.name !== identity.name) {
+        await ctx.db.patch(users._id, { name: identity.name });
       }
-      return user._id;
+      return users._id;
     }
     // If it's a new identity, create a new `User`.
     return await ctx.db.insert("users", {
@@ -32,6 +32,6 @@ export const store = mutation({
       tokenIdentifier: identity.tokenIdentifier,
       email: identity.email,
       imageUrl: identity.pictureUrl
-    });
+    })
   },
 }); 

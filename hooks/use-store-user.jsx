@@ -1,3 +1,4 @@
+'use client'
 import { useUser } from "@clerk/nextjs";
 import { useConvexAuth } from "convex/react";
 import { useEffect, useState } from "react";
@@ -5,7 +6,7 @@ import { useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
 // import { Id } from "../convex/_generated/dataModel";
 
-export function useStoreUser() {
+export  function useStoreUser() {
   const { isLoading, isAuthenticated } = useConvexAuth();
   const { user } = useUser();
   // When this state is set we know the server
@@ -23,7 +24,7 @@ export function useStoreUser() {
     // Recall that `storeUser` gets the user information via the `auth`
     // object on the server. You don't need to pass anything manually here.
     async function createUser() {
-      const id = await storeUser();
+      const id = await storeUser({});
       setUserId(id);
     }
     createUser();
